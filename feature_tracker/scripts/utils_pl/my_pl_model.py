@@ -1,12 +1,12 @@
 import numpy as np
-from utils_pl.model_bp import SPSOLD2ExtractModel
+from utils_pl.model_bp import SUPERPLNETExtractModel
 from utils_point.superpoint.model import NnmPointMatchModel
 from utils_line.sold2.model import WunschLinefeatureMatchModel
 
 def create_plextract_instance(params):
     extract_method = params["extract_method"]
-    if extract_method == "sp-sold2":
-        return SPSOLD2ExtractModel(params["sp-sold2"])
+    if extract_method == "superplnet":
+        return SUPERPLNETExtractModel(params["superplnet"])
     else:
         raise ValueError("Extract method {} is not supported!".format(extract_method))
 

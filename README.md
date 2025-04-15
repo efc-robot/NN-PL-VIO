@@ -1,33 +1,67 @@
-## 代码结构
+> 🚗 Official ROS package implementation of the paper:  
+> **"NN-PL-VIO: A Customizable Neural Network Based VIO Framework with a Lightweight Point-Line Joint Network"**  
 
-- camera_model：相机模型定义文件
-- config：参数文件
-- feature_tracker：前端特征处理器文件
-- pose_graph：回环检测模块文件
-- vins_estimator：后端位姿估计器文件
+## Code Structure
 
-## 使用
+- `camera_model`: Camera model definition files  
+- `config`: Parameter configuration files  
+- `feature_tracker`: Front-end feature processing module  
+- `pose_graph`: Loop closure detection module  
+- `vins_estimator`: Back-end pose estimation module  
 
-- 首先将所有文件放入工作空间src中，编译并source，可以参照plvins.md安装依赖库
-- 根据需要，修改launch文件读取的参数文件及参数文件内容（默认处理EuRoc数据集）
-- 启动点线特征处理器
-  - ```Go
-    roslaunch feature_tracker feature_tracker.launch # 分别启动点线特征处理器
-    roslaunch feature_tracker plfeature_tracker.launch # 启动点线联合特征处理器，适用于sp-sold2网络
+## Usage
+
+- Place all files into the `src` folder of your workspace, compile the workspace, and source the environment. Dependency installation can be referenced in `plvins.md`.
+- Modify the parameter file and its content in the launch file according to your needs (by default, the system processes the EuRoC dataset).
+- Launch the point-line feature processor:  
+
+    ```bash
+    roslaunch feature_tracker feature_tracker.launch  # Launch the point-line feature processor separately
+    roslaunch feature_tracker plfeature_tracker.launch  # Launch the joint point-line feature processor, suitable for superplnet network
     ```
-- 启动后端位姿估计和轨迹重建
-  - ```Go
-    roslaunch plvins_estimator estimator.launch #运行后轨迹文件会保存到指定路径下 
+
+- Launch the back-end pose estimator and trajectory reconstruction:  
+
+    ```bash
+    roslaunch plvins_estimator estimator.launch  # The trajectory will be saved to the specified path after execution
     ```
 
-对于不同的数据集，需要参照config中的文件调整参数，并在launch中指明
+For different datasets, please adjust the parameters in the `config` files accordingly, and specify the corresponding configuration in the launch files.
 
-## 自定义前端
+## Custom Front-End
 
-自定义前端包括点/线的提取、匹配方法，按照以下几个步骤进行自定义：
+The custom front-end includes point/line feature extraction and matching methods. Follow these steps to integrate your own methods:
 
-- 参照 feature_tracker/scripts/utils_point/superpoint/model.py 和 feature_tracker/scripts/utils_line/sold2/model.py，继承BaseExtractModel（含有extract方法）和BaseMatchModel（含有match方法），自定义提取或匹配方法
-- 按照格式将继承类写入 feature_tracker/scripts/utils_point/my_point_model.py 和 feature_tracker/scripts/utils_line/my_line_model.py 的实例化函数中
-- 根据自己定义的方法名和参数名，写入config中
-- 此时程序将根据名字找到自定义方法，利用参数实例化并执行自定义前端特征处理器
-- 预定义的前端方法包括：点提取（superpoint），点匹配（nnm, superglue）；线提取（sold2），线匹配（wunsch），以及点线联合推理的方法（sp-sold2）
+1. Refer to `feature_tracker/scripts/utils_point/superpoint/model.py` and `feature_tracker/scripts/utils_line/sold2/model.py`.  
+   Inherit from `BaseExtractModel` (contains the `extract` method) and `BaseMatchModel` (contains the `match` method) to implement your custom extraction and matching logic.
+   
+2. Write the instantiated class into  
+   `feature_tracker/scripts/utils_point/my_point_model.py` and  
+   `feature_tracker/scripts/utils_line/my_line_model.py`  
+   following the provided format.
+
+3. Add your method names and parameter definitions to the `config` files.
+
+4. The system will automatically locate your custom method by name, instantiate it with the given parameters, and execute the customized front-end feature processor.
+
+Predefined front-end methods include:
+
+- **Point extraction**: `superpoint`, `orb`, `r2d2`  
+- **Point matching**: `nnm`, `superglue`, `knn`  
+- **Line extraction**: `sold2`, `lcnn`, `tplsd`  
+- **Line matching**: `wunsch`  
+- **Joint point-line inference**: `superpl-net`
+
+⚠️ **Note:**  
+When using the predefined point and line feature extraction or matching methods, please make sure to **download the corresponding pre-trained model weights** in advance, and specify the correct file paths in the config file.
+
+
+## Acknowledgements
+
+This project is inspired by and built upon the following excellent open-source repositories:
+
+- [PL-VINS](https://github.com/PL-VINS/PL-VINS) — Point-Line Visual-Inertial Odometry.
+- [SuperPoint](https://github.com/magicleap/SuperPointPretrainedNetwork) — Self-Supervised Interest Point Detector and Descriptor.
+- [SOLD2](https://github.com/cvg/SOLD2) — Self-Supervised Line Detection and Description.
+
+We sincerely thank the authors and contributors of these projects for making their work available to the community.

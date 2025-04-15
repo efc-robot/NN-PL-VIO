@@ -15,10 +15,10 @@ import math
 from .metrics import super_nms, line_map_to_segments
 from pyinstrument import Profiler
 
-class SPSOLD2Net(nn.Module):
+class SUPERPLNET(nn.Module):
     """ Full network for SOLD². """
     def __init__(self, model_cfg):
-        super(SPSOLD2Net, self).__init__()
+        super(SUPERPLNET, self).__init__()
         self.name = model_cfg["model_name"]
         self.cfg = model_cfg
 
@@ -142,7 +142,7 @@ class SPSOLD2Net(nn.Module):
 
         return decoder
         
-class SPSOLD2Model():
+class SUPERPLModel():
     def __init__(self, params):
         self.params = params
         self.heatmap_refine_cfg = self.params["heatmap_refine_cfg"]
@@ -153,7 +153,7 @@ class SPSOLD2Model():
         self.Hc = self.H//self.grid_size
         self.Wc = self.W//self.grid_size
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
-        self.model = SPSOLD2Net(params)
+        self.model = SUPERPLNET(params)
         self.model.eval()
         self.model.to(self.device)
         

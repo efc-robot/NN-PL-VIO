@@ -13,7 +13,7 @@ point_feature_cfg:
                 nn_thresh: 0.7 # Descriptor matching threshold 
                 cuda: true # Use cuda GPU to speed up network processing speed
         superpoint_trt:
-                engine_file_path: "/home/plus/tensorrt/tensorrt/trt_models/superpoint.trt"
+                engine_file_path: "/home/tensorrt/tensorrt/trt_models/superpoint.trt"
                 nms_dist: 4
                 conf_thresh: 0.015
        

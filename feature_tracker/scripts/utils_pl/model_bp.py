@@ -13,10 +13,10 @@ import numpy as np
 from .metrics import super_nms, line_map_to_segments
 from pyinstrument import Profiler
 
-class SPSOLD2Net(nn.Module):
+class SUPERPLNET(nn.Module):
     """ Full network for SOLD². """
     def __init__(self, model_cfg):
-        super(SPSOLD2Net, self).__init__()
+        super(SUPERPLNET, self).__init__()
         self.name = model_cfg["model_name"]
         self.cfg = model_cfg
 
@@ -140,7 +140,7 @@ class SPSOLD2Net(nn.Module):
 
         return decoder
         
-class SPSOLD2ExtractModel(BaseExtractModel):
+class SUPERPLNETExtractModel(BaseExtractModel):
     def _init(self, params):
         self.params = params
         self.grid_size = params["grid_size"]
@@ -149,7 +149,7 @@ class SPSOLD2ExtractModel(BaseExtractModel):
         self.Hc = self.H//self.grid_size
         self.Wc = self.W//self.grid_size
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
-        self.model = SPSOLD2Net(params)
+        self.model = SUPERPLNET(params)
         self.model.eval()
         self.model.to(self.device)
 

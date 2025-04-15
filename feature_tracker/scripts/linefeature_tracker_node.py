@@ -116,7 +116,7 @@ if __name__ == '__main__':
     rospy.init_node('linefeature_tracker', anonymous=False)
     
     # yamlPath = '/home/nvidia/plvins_ws/src/PL-VINS/feature_tracker/config/config.yaml'
-    yamlPath = rospy.get_param("~config_path", "/home/nnplvio_ws/src/sp-sold2-vins/config/feature_tracker/test_config.yaml")
+    yamlPath = rospy.get_param("~config_path", "/home/nnplvio_ws/src/config/feature_tracker/test_config.yaml")
     # print(yamlPath)
     with open(yamlPath,'rb') as f:
       # yaml文件通过---分节，多个节组合成一个列表

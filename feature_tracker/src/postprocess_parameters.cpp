@@ -41,7 +41,7 @@ void readPostprocessParameters(ros::NodeHandle &n)
 {
     std::string config_file;
     // config_file = readParam<std::string>(n, "config_file");
-    config_file = "/home/nvidia/Work/sp-sold2-vins_ws/src/sp-sold2-vins/config/feature_tracker/sp-sold2_postprocess_config.yaml";
+    config_file = "/home/nvidia/Work/nnplvio_ws/src/config/feature_tracker/superplnet_postprocess_config.yaml";
     // std::cout<<config_file<<std::endl;
     cv::FileStorage fsSettings(config_file, cv::FileStorage::READ);
     if(!fsSettings.isOpened())

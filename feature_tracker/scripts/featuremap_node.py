@@ -16,7 +16,7 @@ from time import time
 
 from utils.parameter import read_image
 from utils.camera_model import CameraModel
-from utils_pl.featuremap_model import SPSOLD2Model
+from utils_pl.featuremap_model import SUPERPLModel
 from featuremap import featuremapGenerator
 from feature_tracker.msg import Featuremap
 
@@ -89,7 +89,7 @@ def img_callback(img_msg, params_dict):
 
 if __name__ == '__main__':
     rospy.init_node('featuremap_generator', anonymous=False)
-    yamlPath = rospy.get_param("~config_path", "/home/nvidia/Work/sp-sold2-vins_ws/src/sp-sold2-vins/config/feature_tracker/sp-sold2net_config.yaml")
+    yamlPath = rospy.get_param("~config_path", "/home/nvidia/Work/nnplvio_ws/src/config/feature_tracker/superplnet_config.yaml")
     with open(yamlPath,'rb') as f:
       params = yaml.load(f, Loader=yaml.FullLoader)
       model_params = params["model_cfg"]
@@ -99,7 +99,7 @@ if __name__ == '__main__':
     
       camera_params = params["camera_cfg"]
 
-    my_model = SPSOLD2Model(model_params)
+    my_model = SUPERPLModel(model_params)
     # my_pointmatch_model = create_pointmatch_instance(point_params)  # 建立自定义点特征匹配模型
     # my_linematch_model = create_linematch_instance(line_params)  # 建立自定义点特征匹配模型
     
